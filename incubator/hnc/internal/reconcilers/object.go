@@ -359,6 +359,7 @@ func (r *ObjectReconciler) shouldSyncAsPropagated(log logr.Logger, inst *unstruc
 	// the type has 'Propagate' mode, the object will be overwritten.
 	mode := r.Forest.GetTypeSyncer(r.GVK).GetMode()
 	if mode == api.Propagate && srcInst != nil {
+		stats.OverwriteObject(r.GVK)
 		log.Info("Will be overwritten by the conflicting source in the ancestor", "conflictingAncestor", srcInst.GetNamespace())
 		return true, srcInst
 	}

@@ -32,6 +32,7 @@ var (
 	objectReconcileConcurrent     = ocstats.Int64("object_reconcile_concurrent_peak", "The peak concurrent object reconciliations happened in the last reporting period", "reconciliations")
 	objectWritesTotal             = ocstats.Int64("object_writes_total", "The number of object writes happened during object reconciliations", "writes")
 	namespaceConditions           = ocstats.Int64("namespace_conditions", "The number of namespaces with conditions", "conditions")
+	objectOverwritesTotal         = ocstats.Int64("object_overwrites_total", "The number of overwritten objects", "writes")
 )
 
 // Create Tags. Tags are used to group and filter collected metrics later on.
@@ -107,6 +108,13 @@ var (
 		Aggregation: ocview.LastValue(),
 		TagKeys:     []tag.Key{KeyNamespaceCondition, KeyNamespaceCritical},
 	}
+
+	objectOverwritesTotalView = &ocview.View{
+		Name:        "hnc/reconcilers/object/object_overwrites_total",
+		Measure:     objectOverwritesTotal,
+		Description: "The number of overwritten objects",
+		Aggregation: ocview.LastValue(),
+	}
 )
 
 // periodicPeak contains periodic peaks for concurrent reconciliations.
@@ -133,6 +141,7 @@ func startRecordingMetrics() {
 		objectReconcileConcurrentView,
 		objectWritesView,
 		namespaceConditionsView,
+		objectOverwritesTotalView,
 	); err != nil {
 		log.Error(err, "Failed to register the views")
 	}
