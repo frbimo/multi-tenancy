@@ -32,7 +32,7 @@ var (
 	objectReconcileConcurrent     = ocstats.Int64("object_reconcile_concurrent_peak", "The peak concurrent object reconciliations happened in the last reporting period", "reconciliations")
 	objectWritesTotal             = ocstats.Int64("object_writes_total", "The number of object writes happened during object reconciliations", "writes")
 	namespaceConditions           = ocstats.Int64("namespace_conditions", "The number of namespaces with conditions", "conditions")
-	objectOverwritesTotal         = ocstats.Int64("object_overwrites_total", "The number of overwritten objects", "writes")
+	objectOverwritesTotal         = ocstats.Int64("object_overwrites_total", "The number of overwritten objects", "overwrites")
 )
 
 // Create Tags. Tags are used to group and filter collected metrics later on.
@@ -94,7 +94,7 @@ var (
 	}
 
 	objectWritesView = &ocview.View{
-		Name:        "hnc/reconcilers/object/object_writes_total",
+		Name:        "hnc/reconcilers/object/writes_total",
 		Measure:     objectWritesTotal,
 		Description: "The number of object writes happened during object reconciliations",
 		Aggregation: ocview.LastValue(),
@@ -110,7 +110,7 @@ var (
 	}
 
 	objectOverwritesTotalView = &ocview.View{
-		Name:        "hnc/reconcilers/object/object_overwrites_total",
+		Name:        "hnc/reconcilers/object/overwrites_total",
 		Measure:     objectOverwritesTotal,
 		Description: "The number of overwritten objects",
 		Aggregation: ocview.LastValue(),
